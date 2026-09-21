@@ -1,0 +1,180 @@
+[
+  {
+    "name": "Best Free AI Tools",
+    "slug": "best-free-ai-tools",
+    "description": "Curated AI tools with free plans or free open-source options.",
+    "icon": "Gift",
+    "toolSlugs": [
+      "meta-ai",
+      "whisper",
+      "ollama",
+      "comfyui",
+      "jan",
+      "aider",
+      "stable-diffusion",
+      "open-webui"
+    ]
+  },
+  {
+    "name": "Best AI Video Tools",
+    "slug": "best-ai-video-tools",
+    "description": "Leading AI video generation and editing platforms.",
+    "icon": "Video",
+    "toolSlugs": [
+      "runway",
+      "kling-ai",
+      "google-veo",
+      "heygen",
+      "pika",
+      "luma-dream-machine",
+      "synthesia"
+    ]
+  },
+  {
+    "name": "Best AI Image Generators",
+    "slug": "best-ai-image-generators",
+    "description": "Top AI image generation tools for art and design.",
+    "icon": "Image",
+    "toolSlugs": [
+      "midjourney",
+      "ideogram",
+      "adobe-firefly",
+      "leonardo-ai",
+      "flux",
+      "stable-diffusion",
+      "recraft"
+    ]
+  },
+  {
+    "name": "Best AI Coding Tools",
+    "slug": "best-ai-coding-tools",
+    "description": "AI coding assistants, editors, and agents.",
+    "icon": "Code2",
+    "toolSlugs": [
+      "cursor",
+      "github-copilot",
+      "windsurf",
+      "claude-code",
+      "aider",
+      "cline",
+      "replit",
+      "lovable"
+    ]
+  },
+  {
+    "name": "Best Open Source AI",
+    "slug": "best-open-source-ai",
+    "description": "Projects with open-source licenses or clearly documented open weights.",
+    "icon": "Github",
+    "toolSlugs": [
+      "ollama",
+      "whisper",
+      "aider",
+      "cline",
+      "vllm",
+      "langchain",
+      "comfyui",
+      "jan"
+    ]
+  },
+  {
+    "name": "Best Local AI",
+    "slug": "best-local-ai",
+    "description": "Tools you can run on your own machine.",
+    "icon": "HardDrive",
+    "toolSlugs": [
+      "ollama",
+      "open-webui",
+      "jan",
+      "comfyui",
+      "anythingllm",
+      "whisper",
+      "vllm"
+    ]
+  },
+  {
+    "name": "Best AI Tools for Students",
+    "slug": "best-ai-tools-for-students",
+    "description": "Helpful AI tools for studying and research.",
+    "icon": "GraduationCap",
+    "toolSlugs": [
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "notebooklm",
+      "meta-ai",
+      "gamma"
+    ]
+  },
+  {
+    "name": "Best AI Tools for Creators",
+    "slug": "best-ai-tools-for-creators",
+    "description": "AI for video, image, voice, and music creators.",
+    "icon": "Sparkles",
+    "toolSlugs": [
+      "runway",
+      "midjourney",
+      "elevenlabs",
+      "suno",
+      "capcut-ai",
+      "ideogram"
+    ]
+  },
+  {
+    "name": "Best AI Tools for Developers",
+    "slug": "best-ai-tools-for-developers",
+    "description": "APIs, frameworks, and coding tools for builders.",
+    "icon": "Terminal",
+    "toolSlugs": [
+      "cursor",
+      "github-copilot",
+      "langchain",
+      "vllm",
+      "deepgram",
+      "dify"
+    ]
+  },
+  {
+    "name": "Best AI Tools for Businesses",
+    "slug": "best-ai-tools-for-businesses",
+    "description": "Enterprise-friendly AI for teams and operations.",
+    "icon": "Building2",
+    "toolSlugs": [
+      "microsoft-copilot",
+      "notion-ai",
+      "synthesia",
+      "heygen",
+      "claude",
+      "chatgpt"
+    ]
+  },
+  {
+    "name": "Best AI Tools under $20/month",
+    "slug": "best-under-20",
+    "description": "Tools with starting prices at or below $20/month where verified.",
+    "icon": "BadgeDollarSign",
+    "toolSlugs": [
+      "chatgpt",
+      "claude",
+      "gemini",
+      "perplexity",
+      "cursor",
+      "github-copilot",
+      "midjourney"
+    ]
+  },
+  {
+    "name": "Best AI Tools under $50/month",
+    "slug": "best-under-50",
+    "description": "Capable AI tools with verified starting prices under $50/month.",
+    "icon": "Wallet",
+    "toolSlugs": [
+      "chatgpt",
+      "claude",
+      "cursor",
+      "midjourney",
+      "perplexity",
+      "github-copilot"
+    ]
+  }
+]

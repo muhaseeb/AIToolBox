@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body {
+  @apply bg-background text-zinc-100 antialiased;
+  background-image: radial-gradient(ellipse 100% 80% at 50% -30%, rgba(139, 92, 246, 0.12), transparent);
+  min-height: 100vh;
+}
+
+@layer components {
+  .glass { @apply bg-zinc-900/60 backdrop-blur-xl border border-zinc-800/80; }
+  .card {
+    @apply rounded-2xl border border-zinc-800/80 bg-zinc-900/50 shadow-card transition
+      hover:border-zinc-700 hover:bg-zinc-900/80;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium
+      transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:opacity-50;
+  }
+  .btn-primary { @apply btn bg-accent text-white hover:bg-accent-soft shadow-glow; }
+  .btn-secondary { @apply btn bg-zinc-800 text-zinc-100 hover:bg-zinc-700 border border-zinc-700; }
+  .btn-ghost { @apply btn bg-transparent text-zinc-300 hover:bg-zinc-800/80 hover:text-white; }
+  .input {
+    @apply w-full rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-100
+      placeholder:text-zinc-500 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-zinc-700 bg-zinc-800/80
+      px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-zinc-300;
+  }
+  .section-title { @apply text-2xl font-semibold tracking-tight text-white md:text-3xl; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 999px; }
+
+@layer components {
+  .section-title { @apply text-2xl font-semibold tracking-tight text-white md:text-3xl; }
+  .badge {
+    @apply inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/60 px-2.5 py-1 text-xs text-zinc-300 transition;
+  }
+  .card {
+    @apply rounded-2xl border border-zinc-800/80 bg-zinc-900/50 shadow-card transition
+      hover:border-zinc-700 hover:bg-zinc-900/80;
+  }
+  .text-accent-soft { color: #a78bfa; }
+  .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+  .animate-slide-up { animation: slideUp 0.4s ease-out; }
+}

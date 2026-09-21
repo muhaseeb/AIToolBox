@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  company           String
+  description       String
+  shortDescription  String
+  category          String
+  subcategories     String   @default("[]") // JSON array
+  logo              String?
+  officialUrl       String
+  pricingUrl        String?
+  documentationUrl  String?
+  githubUrl         String?
+  huggingFaceUrl    String?
+  affiliateUrl      String?
+  status            String   @default("active") // active, deprecated, beta
+  pricingType       String   // FREE, FREEMIUM, PAID, ENTERPRISE, CUSTOM
+  startingPrice     Float?
+  currency          String   @default("USD")
+  freePlan          Boolean  @default(false)
+  freeTrial         Boolean  @default(false)
+  pricingPlans      String   @default("[]") // JSON: [{name, price, period, features}]
+  creditSystem      Boolean  @default(false)
+  apiAvailable      Boolean  @default(false)
+  apiPricingUrl     String?
+  openSource        Boolean  @default(false)
+  openWeights       Boolean  @default(false)
+  sourceAvailable   Boolean  @default(false)
+  selfHostable      Boolean  @default(false)
+  license           String?
+  commercialUse     Boolean  @default(false)
+  platforms         String   @default("[]") // JSON array
+  windows           Boolean  @default(false)
+  macos             Boolean  @default(false)
+  linux             Boolean  @default(false)
+  web               Boolean  @default(true)
+  chromeExtension   Boolean  @default(false)
+  ios               Boolean  @default(false)
+  android           Boolean  @default(false)
+  bestFor           String   @default("[]") // JSON array
+  features          String   @default("[]") // JSON array
+  tags              String   @default("[]") // JSON array
+  pros              String   @default("[]") // JSON array
+  limitations       String   @default("[]") // JSON array
+  faq               String   @default("[]") // JSON: [{q,a}]
+  // Pricing verification
+  lastVerified      DateTime
+  verifiedAt        DateTime? // alias/mirror of last successful verify; set by admin/cron
+  verifiedBy        String?   // "admin", "cron", email/name
+  pricingSourceUrl  String?   // official URL used as pricing source of truth
+  verificationStatus String  @default("verified") // verified, needs_review, needs_verification, outdated
+  needsReview       Boolean  @default(false)
+  reviewReason      String?
+  // Link health (official URL HEAD/GET only — never scrape pricing)
+  urlStatus         String   @default("unchecked") // ok, broken, unchecked, redirect
+  urlLastChecked    DateTime?
+  httpStatus        Int?
+  featured          Boolean  @default(false)
+  trending          Boolean  @default(false)
+  editorialPick     Boolean  @default(false)
+  viewCount         Int      @default(0)
+  saveCount         Int      @default(0)
+  clickCount        Int      @default(0)
+  modelSize         String?
+  gpuRequirements   String?
+  latestRelease     String?
+  osHubTab          String?  // LLMs, Image, Video, Audio, Agents, Coding, UI, Infrastructure
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  collectionTools   CollectionTool[]
+  reports           PricingReport[]
+}
+
+model Collection {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  icon        String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tools       CollectionTool[]
+}
+
+model CollectionTool {
+  id           String @id @default(cuid())
+  collectionId String
+  toolId       String
+  order        Int    @default(0)
+
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  tool         Tool       @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, toolId])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model ToolSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  officialUrl String
+  category    String?
+  description String?
+  submitterEmail String?
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+}
+
+model PricingReport {
+  id        String   @id @default(cuid())
+  toolId    String
+  message   String?
+  email     String?
+  status    String   @default("open") // open, resolved, dismissed
+  createdAt DateTime @default(now())
+
+  tool      Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String?  // hashed; null for OAuth
+  provider  String   @default("email") // email, google, demo
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Summary log for scheduled / manual catalog update jobs
+model CronRun {
+  id               String   @id @default(cuid())
+  job              String   @default("update-tools")
+  startedAt        DateTime @default(now())
+  finishedAt       DateTime?
+  status           String   @default("running") // running, ok, error
+  linksChecked     Int      @default(0)
+  linksBroken      Int      @default(0)
+  staleFlagged     Int      @default(0)
+  seedMerged       Int      @default(0)
+  seedSkipped      Int      @default(0)
+  summary          String?  // JSON details
+  error            String?
+}
