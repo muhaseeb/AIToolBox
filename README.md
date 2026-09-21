@@ -148,7 +148,75 @@ GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 CRON_SECRET=
 ALLOW_INSECURE_CRON="false"
+TURSO_DATABASE_URL=
+TURSO_AUTH_TOKEN=
 ```
+
+For production (Vercel) see **Deploy to Vercel** below — use Turso (`TURSO_*`) or Neon Postgres.
+
+
+## Deploy to Vercel (free tier)
+
+SQLite **file** databases do not work on Vercel serverless (ephemeral filesystem). Use a remote DB.
+
+### Recommended: Turso (libSQL) — no Prisma provider change
+
+Keeps `provider = "sqlite"` in `prisma/schema.prisma`. Runtime uses `@prisma/adapter-libsql`.
+
+1. Create a free DB at [turso.tech](https://turso.tech) and copy the URL + token.
+2. In the Vercel project → Settings → Environment Variables:
+
+| Name | Value |
+|------|--------|
+| `DATABASE_URL` | `file:./dev.db` (placeholder for Prisma generate) **or** `libsql://…?authToken=…` for CLI |
+| `TURSO_DATABASE_URL` | `libsql://your-db-name-user.turso.io` |
+| `TURSO_AUTH_TOKEN` | your Turso auth token |
+| `CRON_SECRET` | long random string |
+| `ADMIN_PASSWORD` | your admin password |
+| `NEXTAUTH_URL` | `https://your-app.vercel.app` |
+
+3. Push schema + seed **once** from your machine (or a CI step):
+
+```bash
+# Option A — auth token query param for Prisma CLI
+export DATABASE_URL="libsql://your-db.turso.io?authToken=$TURSO_AUTH_TOKEN"
+npx prisma db push
+npm run db:seed
+
+# Option B — turso CLI
+turso db shell your-db < <(npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script)
+```
+
+4. Deploy: connect the Git repo to Vercel (framework Next.js). `vercel.json` sets `buildCommand` to `prisma generate && next build` and a daily cron at `0 6 * * *` UTC.
+
+5. **Cron on Hobby:** Vercel Cron may require Pro. On free Hobby, point any external cron (e.g. cron-job.org) at:
+
+```bash
+curl -X GET "https://your-app.vercel.app/api/cron/update-tools" \
+  -H "Authorization: Bearer $CRON_SECRET"
+```
+
+### Alternative: Neon Postgres
+
+1. Create a free project at [neon.tech](https://neon.tech).
+2. In `prisma/schema.prisma`, change the datasource to:
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+3. Set `DATABASE_URL` to the Neon connection string (pooled + `sslmode=require`). Leave `TURSO_*` unset.
+4. Run `npx prisma db push && npm run db:seed`, then redeploy.
+5. Locally you would then also need Postgres (or a second schema) — Turso is simpler if you want to keep local SQLite.
+
+### Build notes
+
+- `postinstall` / `build` already run `prisma generate`.
+- Do **not** rely on `prisma/dev.db` in git for production.
+- After first Turso push, re-seed anytime with the same `DATABASE_URL` / Turso env pointing at the remote DB.
 
 ## Product rules (enforced in UI)
 

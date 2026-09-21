@@ -1,7 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
+// Local: DATABASE_URL="file:./dev.db" (SQLite)
+// Production (Vercel): Turso libSQL — same provider; set TURSO_DATABASE_URL + TURSO_AUTH_TOKEN
+//   (runtime uses @prisma/adapter-libsql). Optional: put libsql:// URL in DATABASE_URL for CLI push.
+// Neon Postgres alternative: change provider to "postgresql" and set DATABASE_URL to the Neon URL
+//   (see README "Deploy to Vercel") — requires a one-line schema change + db push.
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
